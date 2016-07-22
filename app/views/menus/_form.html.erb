@@ -1,0 +1,22 @@
+<%= form_for @menu do |f| %>
+  <% if @menu.errors.any? %>
+    <div>
+      <h2>
+        Please fix the following errors:
+      </h2>
+      <ul>
+        <% @menu.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <p>
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </p>
+
+  <p>
+    <%= f.submit %>
+  </p>
+<% end %>
