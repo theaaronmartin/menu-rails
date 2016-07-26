@@ -1,45 +1,49 @@
 class MenusController < ApplicationController
   def index
     @restaurant = Restaurant.find(params[:restaurant_id])
+    @menus = @restaurant.menus
   end
 
   def new
-    @menus = Menus.new
+    @restaurant = Restaurant.find(params[:restaurant_id])
+    @menu = @restaurant.menus.build()
   end
 
   def create
-    @menus = Menus.new(menu_params)
+    @restaurant = Restaurant.find(params[:restaurant_id])
+    @menu = @restaurant.menus.build(menu_params)
 
-    if @menus.save
-      redirect_to @menus
+    if @menu.save
+      redirect_to @menu
     else
       render :new
     end
   end
 
   def edit
-    @menus = Menus.find(params[:id])
+    @menu = Menu.find(params[:id])
   end
 
   def update
-    @menus = Menus.find(params[:id])
+    @menu = Menu.find(params[:id])
 
-    if @menus.update menu_params
-      redirect_to @menus
+    if @menu.update menu_params
+      redirect_to @menu
     else
       render :edit
     end
   end
 
   def show
-    @restaurant = Restaurant.find(params[:restaurant_id])
+    @menu = Menu.find(params[:id])
+    @menu_item = @menu.menu_items
   end
 
   def destroy
-    @menus = Menus.find(params[:id])
-    @menus.destroy
+    @menu = Menu.find(params[:id])
+    @menu.destroy
 
-    redirect_to menu_items_path
+    redirect_to restaurant_menus_path(@menu.restaurant)
   end
 
   private

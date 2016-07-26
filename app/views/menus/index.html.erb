@@ -1,1 +1,18 @@
 <h1>Welcome to <%= @restaurant.name %></h1>
+<h2> <%= @restaurant.description %></h2>
+
+<table>
+  <tr>
+    <th>Name</th>
+  </tr>
+
+  <%= render @menus %>
+</table>
+
+<p>
+  <%= link_to 'Add a Section to the Menu', new_restaurant_menu_path() %>
+</p>
+
+<p>
+  <%= link_to 'Back to Index', restaurants_path() %>
+</p>

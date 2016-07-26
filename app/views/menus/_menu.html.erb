@@ -1,0 +1,6 @@
+<tr>
+  <td><%= menu.name %></td>
+  <td><%= link_to 'Show', menu_path(menu) %></td>
+  <td><%= link_to 'Edit', edit_menu_path(menu) %></td>
+  <td><%= link_to 'Delete', menu_path(menu), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+</tr>

@@ -1,13 +1,22 @@
 <p>
   <strong>Name</strong><br>
-  <%= @restaurant.name %>
+  <%= @menu.name %>
+</p>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Description</th>
+    <th>Price</th>
+  </tr>
+
+  <%= render @menu.menu_items %>
+</table>
+
+<p>
+  <%= link_to 'Add an Item to the Menu', new_menu_menu_item_path(@menu) %>
 </p>
 
 <p>
-  <strong>Description</strong><br>
-  <%= @restaurant.description %>
-</p>
-
-<p>
-  <%= link_to 'Back to Restaurants', restaurants_path() %>
+  <%= link_to 'Back to Menus', restaurant_menus_path(@menu.restaurant) %>
 </p>

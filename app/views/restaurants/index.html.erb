@@ -5,12 +5,12 @@
     <th>Name</th>
   </tr>
 
-  <% @restaurant.each do |item| %>
+  <% @restaurants.each do |restaurant| %>
     <tr>
-      <td><%= item.name %></td>
-      <td><%= link_to 'Show', restaurant_menus_path(item) %></td>
-      <td><%= link_to 'Edit', edit_restaurant_path(item) %></td>
-      <td><%= link_to 'Delete', restaurant_path(item), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      <td><%= restaurant.name %></td>
+      <td><%= link_to 'Show', restaurant_menus_path(restaurant) %></td>
+      <td><%= link_to 'Edit', edit_restaurant_path(restaurant) %></td>
+      <td><%= link_to 'Delete', restaurant_path(restaurant), method: :delete, data: { confirm: 'Are you sure?' } %></td>
     </tr>
   <% end %>
 </table>
