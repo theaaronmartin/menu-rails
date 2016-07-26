@@ -1,9 +1,4 @@
 class MenuItemsController < ApplicationController
-  def index
-    @menu = Menu.find(params[:menu_id])
-    @menu_items = @menu.menu_items
-  end
-
   def new
     @menu = Menu.find(params[:menu_id])
     @menu_item = @menu.menu_items.build()
