@@ -45,6 +45,7 @@ class MenuItemsController < ApplicationController
 
   def search_results
     @menu_items = MenuItem.where("name like ?", "%#{params[:query]}%")
+    @menu = Menu.find(params[:menu_id])
   end
 
   private

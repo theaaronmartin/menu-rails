@@ -39,9 +39,9 @@ class MenusController < ApplicationController
     @menu_item = @menu.menu_items
 
     if params[:order_by].nil?
-      @menu_item = @menu.menu_items.order(created_at: :desc)
+      @menu_items = @menu.menu_items.order(created_at: :desc)
     else
-      @menu_item = @menu.menu_items.order("created_at " + params[:order_by])
+      @menu_items = @menu.menu_items.order("created_at " + params[:order_by])
     end
   end
 
