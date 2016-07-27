@@ -23,7 +23,7 @@ class MenuItemsController < ApplicationController
     @menu_item = MenuItem.find(params[:id])
 
     if @menu_item.update item_params
-      redirect_to @menu
+      redirect_to menu_item_path
     else
       render :edit
     end
@@ -44,7 +44,8 @@ class MenuItemsController < ApplicationController
   end
 
   def search_results
-    @menu_items = MenuItem.where("name like ?", "%#{params[:query]}%")
+    @menu = Menu.find(params[:menu_id])
+    @menu_items = @menu.menu_items.where("name like ?", "%#{params[:query]}%")
     @menu = Menu.find(params[:menu_id])
   end
 

@@ -39,9 +39,9 @@ class MenusController < ApplicationController
     @menu_item = @menu.menu_items
 
     if params[:order_by].nil?
-      @menu_items = @menu.menu_items.order(created_at: :desc)
+      @menu_items = @menu.menu_items.order(:price)
     else
-      @menu_items = @menu.menu_items.order("created_at " + params[:order_by])
+      @menu_items = @menu.menu_items.order("price " + params[:order_by])
     end
   end
 
@@ -56,7 +56,8 @@ class MenusController < ApplicationController
   end
 
   def search_results
-    @menus = Menu.where("name like ?", "%#{params[:query]}%")
+    @restaurant = Restaurant.find(params[:restaurant_id])
+    @menus = @restaurant.menus.where("name like ?", "%#{params[:query]}%")
   end
 
   private
