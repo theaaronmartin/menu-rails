@@ -1,0 +1,14 @@
+<h1>Search Results for Menus</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+  </tr>
+
+  <% @menus.each do |menu| %>
+    <tr>
+      <td><%= menu.name %></td>
+      <td><%= link_to 'Show', menu_path(menu) %></td>
+    </tr>
+  <% end %>
+</table>

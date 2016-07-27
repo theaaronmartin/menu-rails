@@ -1,13 +1,14 @@
 <p>
   <strong>Name</strong><br>
-  <%= @restaurant.name %>
+  <%= @menu_item.name %>
 </p>
 
 <p>
   <strong>Description</strong><br>
-  <%= @restaurant.description %>
+  <%= @menu_item.description %>
 </p>
 
 <p>
-  <%= link_to 'Back to Restaurants', restaurants_path() %>
+  <strong>Price</strong><br>
+  <%= @menu_item.price %>
 </p>

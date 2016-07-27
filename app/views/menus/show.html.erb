@@ -3,6 +3,10 @@
   <%= @menu.name %>
 </p>
 
+<p>
+  Sort Price By: <%= link_to "Low to High", "?order_by=desc"%> <%= link_to "High to Low", "?order_by=asc"%>
+</p>
+
 <table>
   <tr>
     <th>Name</th>
@@ -10,8 +14,12 @@
     <th>Price</th>
   </tr>
 
-  <%= render @menu.menu_items %>
+  <%= render @menu_items %>
 </table>
+
+<p>
+  <%= link_to 'Search Menu Items by Name', search_menu_menu_items_path(@menu) %>
+</p>
 
 <p>
   <%= link_to 'Add an Item to the Menu', new_menu_menu_item_path(@menu) %>
