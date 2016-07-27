@@ -20,3 +20,18 @@
 <p>
   <%= link_to 'Back to Index', restaurants_path() %>
 </p>
+
+<script>
+$.ajax('/restaurants/<%= @restaurant.id %>/menus.json', {
+  method: 'GET'
+})
+.done(function(users) {
+  console.log(users);
+})
+.fail(function(err) {
+  console.log('error');
+})
+.always(function() {
+  console.log('complete');;
+});
+</script>

@@ -28,3 +28,18 @@
 <p>
   <%= link_to 'Back to Menus', restaurant_menus_path(@menu.restaurant) %>
 </p>
+
+<script>
+$.ajax('/menus/<%= @menu.id %>/menu_items.json', {
+  method: 'GET'
+})
+.done(function(users) {
+  console.log(users);
+})
+.fail(function(err) {
+  console.log('error');
+})
+.always(function() {
+  console.log('complete');;
+});
+</script>

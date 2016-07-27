@@ -18,3 +18,18 @@
 <p>
   <%= link_to 'Add a Restaurant to the List', new_restaurant_path() %>
 </p>
+
+<script>
+$.ajax('restaurants.json', {
+  method: 'GET'
+})
+.done(function(users) {
+  console.log(users);
+})
+.fail(function(err) {
+  console.log('error');
+})
+.always(function() {
+  console.log('complete');;
+});
+</script>
