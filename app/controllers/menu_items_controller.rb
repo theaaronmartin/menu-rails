@@ -30,8 +30,7 @@ class MenuItemsController < ApplicationController
   end
 
   def show
-    @menu = Menu.find(params[:menu_id])
-    @menu_item = @menu.menu_items
+    @menu_item = MenuItem.find(params[:id])
   end
 
   def destroy
@@ -39,6 +38,13 @@ class MenuItemsController < ApplicationController
     @menu_item.destroy
 
     redirect_to @menu_item.menu
+  end
+
+  def search
+  end
+
+  def search_results
+    @menu_items = MenuItem.where("name like ?", "%#{params[:query]}%")
   end
 
   private

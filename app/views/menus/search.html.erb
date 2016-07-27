@@ -1,0 +1,8 @@
+<h1>Search Menus by Name</h1>
+
+<%= form_tag search_results_restaurant_menus_path, :method => 'get' do %>
+  <p>
+    <%= text_field_tag :query %>
+    <%= submit_tag "Search", :name => nil %>
+  </p>
+<% end %>

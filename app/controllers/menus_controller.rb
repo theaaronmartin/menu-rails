@@ -37,6 +37,12 @@ class MenusController < ApplicationController
   def show
     @menu = Menu.find(params[:id])
     @menu_item = @menu.menu_items
+
+    if params[:order_by].nil?
+      @menu_item = @menu.menu_items.order(created_at: :desc)
+    else
+      @menu_item = @menu.menu_items.order("created_at " + params[:order_by])
+    end
   end
 
   def destroy
@@ -44,6 +50,13 @@ class MenusController < ApplicationController
     @menu.destroy
 
     redirect_to restaurant_menus_path(@menu.restaurant)
+  end
+
+  def search
+  end
+
+  def search_results
+    @menus = Menu.where("name like ?", "%#{params[:query]}%")
   end
 
   private

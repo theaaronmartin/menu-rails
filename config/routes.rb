@@ -3,7 +3,16 @@ Rails.application.routes.draw do
 
   resources :restaurants, shallow: true do
     resources :menus do
-      resources :menu_items
+      collection do
+        get :search
+        get :search_results
+      end
+      resources :menu_items do
+        collection do
+          get :search
+          get :search_results
+        end
+      end
     end
   end
 
