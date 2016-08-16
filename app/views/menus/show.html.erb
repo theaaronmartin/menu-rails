@@ -24,20 +24,38 @@
 </p>
 
 <p>
-  <%= link_to 'Add an Item to the Menu', new_menu_menu_item_path(@menu) %>
-</p>
-
-<p>
   <%= link_to 'Back to Menus', restaurant_menus_path(@menu.restaurant) %>
 </p>
 
 <script type="text/babel">
 
+var data = {
+  menuItems: [
+    { name: 'Hamachi', description: 'Yellow Tail', price: '8.99' }
+  ]
+}
+
+class MenuItem extends React.Component {
+  render() {
+    return (
+      <div className="menu-item">
+        <h2 className="menu-item-name">
+          {this.props.name}
+        </h2>
+        {this.props.children}
+      </div>
+    );
+  }
+};
+
 class MenuItemList extends React.Component {
   render() {
     var menuItemNodes = this.props.data.menuItems.map(function(menuItem) {
       return (
-        <MenuItem >
+        <MenuItem name={menuItem.name}
+                  description={menuItem.description}
+                  price={menuItem.price}>
+          {menuItem.name}
         </MenuItem>
       );
     });
@@ -47,128 +65,31 @@ class MenuItemList extends React.Component {
       </div>
     );
   }
-}
+};
 
 class MenuItemForm extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = { name: '', description: '', price: '' };
-
-    this.handleNameChange = this.handleNameChange.bind(this);
-    this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
-    this.handlePriceChange = this.handlePriceChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  handleNameChange(e) {
-    this.setState({ name: e.target.value });
-  }
-
-  handleDescriptionChange(e) {
-    this.setState({ description: e.target.value });
-  }
-
-  handlePriceChange(e) {
-    this.setState({ price: e.target.value });
-  }
-
-  handleSubmit(e) {
-    e.preventDefault();
-
-    var name = this.state.name.trim();
-    var description = this.state.description.trim();
-    var price = this.state.price.trim();
-
-    if (!name || !description || !price) {
-      return;
-    }
-
-    this.props.onSubmit({
-      name: name,
-      description: description,
-      price: price
-    });
-
-    this.setState({ name: '', description: '', price: '' });
-  }
-
   render() {
     return (
-      <form className="menu-item-form" onSubmit={this.handleSubmit}>
-        <input
-          type="text"
-          placeholder="Item Name"
-          value={this.state.name}
-          onChange={this.handleNameChange}
-         />
-        <input
-          type="text"
-          placeholder="Description"
-          value={this.state.description}
-          onChange={this.handleDescriptionChange}
-        />
-        <input
-          type="number"
-          placeholder="Price"
-          value={this.state.price}
-          onChange={this.handlePriceChange}
-        />
-        <input type="submit" value="Add Item" />
-      </form>
+      <div className="menu-item-form">
+        Menu Item Form
+      </div>
     );
   }
-}
+};
 
 class MenuItemBox extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = { data: { menuItems: [] } };
-    this.getMenuItems = this.getMenuItems.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
-
-  getMenuItems() {
-    $.ajax({
-      url: this.props.url + '/<%= @menu.id %>/',
-      dataType: 'json',
-      cache: false
-    })
-    .done(function(users) {
-      this.setState({ data: users });
-    }.bind(this))
-    .fail(function(xhr, status, err) {
-      console.error(err);
-    }.bind(this));
-  }
-
-  handleSubmit(menuItem) {
-    $.ajax({
-        url: this.props.url + '/<%= @menu.id %>/',
-        dataType: 'json',
-        type: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify(menuItem)
-      })
-      .done(function(users) {
-        this.setState({data: users});
-      }.bind(this))
-      .fail(function(xhr, status, err) {
-        console.error(err);
-      }.bind(this));
-  }
-
-  componentDidMount() {
-    this.getMenuItems();
-}
 
   render() {
     return (
       <div className="menu-item-box">
-        <h1 className="mi-title"><%= @menu.name %> Items</h1>
-        <MenuItemList data={this.state.data} />
-        <MenuItemForm onSubmit={this.handleSubmit} />
+        Menu Items
+        <MenuItemList data={this.props.data} />
+        <MenuItemForm />
       </div>
     );
   }
@@ -188,7 +109,7 @@ class MenuItemBox extends React.Component {
 // });
 
 ReactDOM.render(
-  <MenuItemBox url="http://localhost:3000/menus" />,
+  <MenuItemBox url="http://localhost:3000/menus/3" />,
   document.getElementById('content')
 );
 </script>
