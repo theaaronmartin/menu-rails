@@ -84,7 +84,7 @@ class MenuItemForm extends React.Component {
       return;
     }
 
-    this.props.onMenuItemSubmit({
+    this.props.onSubmit({
       name: name,
       description: description,
       price: price
@@ -126,7 +126,7 @@ class MenuItemBox extends React.Component {
 
     this.state = { data: { menuItems: [] } };
     this.getMenuItems = this.getMenuItems.bind(this);
-    this.handleMenuItemSubmit = this.handleMenuItemSubmit.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   getMenuItems() {
@@ -135,15 +135,15 @@ class MenuItemBox extends React.Component {
       dataType: 'json',
       cache: false
     })
-    .done(function(post) {
-      this.setState({ data: post });
+    .done(function(users) {
+      this.setState({ data: users });
     }.bind(this))
     .fail(function(xhr, status, err) {
       console.error(err);
     }.bind(this));
   }
 
-  handleMenuItemSubmit(menuItem) {
+  handleSubmit(menuItem) {
     $.ajax({
         url: this.props.url + '/<%= @menu.id %>/',
         dataType: 'json',
@@ -151,8 +151,8 @@ class MenuItemBox extends React.Component {
         contentType: 'application/json',
         data: JSON.stringify(menuItem)
       })
-      .done(function(post) {
-        this.setState({data: post});
+      .done(function(users) {
+        this.setState({data: users});
       }.bind(this))
       .fail(function(xhr, status, err) {
         console.error(err);
@@ -168,7 +168,7 @@ class MenuItemBox extends React.Component {
       <div className="menu-item-box">
         <h1 className="mi-title"><%= @menu.name %> Items</h1>
         <MenuItemList data={this.state.data} />
-        <MenuItemForm onMenuItemSubmit={this.handleMenuItemSubmit} />
+        <MenuItemForm onSubmit={this.handleSubmit} />
       </div>
     );
   }
