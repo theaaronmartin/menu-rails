@@ -33,11 +33,85 @@
 
 <script type="text/babel">
 
+class MenuItem extends React.Component {
+  render() {
+    return (
+      <div className="menu-item">
+        <h2 className="menu-item-h2">
+          {this.props.name}
+          <br />
+          {this.props.description}
+          <br />
+          {this.props.price}
+        </h2>
+        {this.props.children}
+      </div>
+    );
+  }
+}
+
+class MenuItemBox extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = { data: [] };
+    this.getMenuItems = this.getMenuItems.bind(this);
+    this.handleMenuItemSubmit = this.handleMenuItemSubmit.bind(this);
+  }
+
+  getMenuItems() {
+    $.ajax({
+      url: this.props.url,
+      dataType: 'json',
+      cache: false
+    })
+    .done(function(menuItems) {
+      this.setState({ data: menuItems });
+    }.bind(this))
+    .fail(function(xhr, status, err) {
+      console.error(err);
+    }.bind(this));
+  }
+
+  handleMenuItemSubmit(menuItem) {
+    $.ajax({
+        url: this.props.url,
+        dataType: 'json',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(menuItem)
+      })
+      .done(function(menuItems) {
+        this.setState({data: menuItems});
+      }.bind(this))
+      .fail(function(xhr, status, err) {
+        console.error(err);
+      }.bind(this));
+  }
+
+  componentDidMount() {
+    this.getMenuItems();
+}
+
+  render() {
+    return (
+      <div className="menu-item-box">
+        <h1 className="mi-title"><%= @menu.name %> Items</h1>
+        <MenuItemList data={this.state.data} />
+        <MenuItemForm onMenuItemSubmit={this.handleMenuItemSubmit} />
+      </div>
+    );
+  }
+};
+
 class MenuItemList extends React.Component {
   render() {
-    var menuItemNodes = this.props.data.menuItems.map(function(menuItem) {
+    var menuItemNodes = this.props.data.map(function(menuItem) {
       return (
-        <MenuItem >
+        <MenuItem name={menuItem.name}
+                  description={menuItem.description}
+                  price={menuItem.price}
+                  key={menuItem.id}>
         </MenuItem>
       );
     });
@@ -84,7 +158,7 @@ class MenuItemForm extends React.Component {
       return;
     }
 
-    this.props.onSubmit({
+    this.props.onMenuItemSubmit({
       name: name,
       description: description,
       price: price
@@ -120,75 +194,8 @@ class MenuItemForm extends React.Component {
   }
 }
 
-class MenuItemBox extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = { data: { menuItems: [] } };
-    this.getMenuItems = this.getMenuItems.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  getMenuItems() {
-    $.ajax({
-      url: this.props.url + '/<%= @menu.id %>/',
-      dataType: 'json',
-      cache: false
-    })
-    .done(function(users) {
-      this.setState({ data: users });
-    }.bind(this))
-    .fail(function(xhr, status, err) {
-      console.error(err);
-    }.bind(this));
-  }
-
-  handleSubmit(menuItem) {
-    $.ajax({
-        url: this.props.url + '/<%= @menu.id %>/',
-        dataType: 'json',
-        type: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify(menuItem)
-      })
-      .done(function(users) {
-        this.setState({data: users});
-      }.bind(this))
-      .fail(function(xhr, status, err) {
-        console.error(err);
-      }.bind(this));
-  }
-
-  componentDidMount() {
-    this.getMenuItems();
-}
-
-  render() {
-    return (
-      <div className="menu-item-box">
-        <h1 className="mi-title"><%= @menu.name %> Items</h1>
-        <MenuItemList data={this.state.data} />
-        <MenuItemForm onSubmit={this.handleSubmit} />
-      </div>
-    );
-  }
-};
-
-// $.ajax('/menus/<%= @menu.id %>/menu_items.json', {
-//   method: 'GET'
-// })
-// .done(function(users) {
-//   console.log(users);
-// })
-// .fail(function(err) {
-//   console.log('error');
-// })
-// .always(function() {
-//   console.log('complete');;
-// });
-
 ReactDOM.render(
-  <MenuItemBox url="http://localhost:3000/menus" />,
+  <MenuItemBox url="http://localhost:3000/menus/<%= @menu.id %>/menu_items.json" />,
   document.getElementById('content')
 );
 </script>
